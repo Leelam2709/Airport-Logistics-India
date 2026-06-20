@@ -320,7 +320,7 @@ app.post('/api/contact', async (req, res) => {
 });
 
 // ── START ─────────────────────────────────────────────────────────
-mongoose.connect('mongodb://127.0.0.1:27017/airport_logistics_india')
+mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ MongoDB Connected!');
     app.listen(5000, () => {
