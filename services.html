@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services – Airport Logistics India</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .services-wrap { max-width: 1200px; margin: 0 auto; padding: 60px 2rem 80px; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 48px; }
+
+    .svc-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: block;
+      color: var(--text);
+    }
+    .svc-card:hover { border-color: rgba(14,165,233,0.45); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(14,165,233,0.12); }
+
+    .svc-card-top { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .svc-icon { width: 52px; height: 52px; background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .svc-card h3 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; margin-bottom: 2px; }
+    .svc-card .svc-sub { color: var(--text-muted); font-size: 0.78rem; }
+    .svc-card p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.65; margin-bottom: 20px; }
+
+    .svc-tag { display: inline-block; background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.15); color: var(--blue); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 4px; margin-bottom: 12px; }
+
+    .svc-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--border); }
+    .svc-pod { font-family: monospace; font-size: 0.7rem; color: var(--text-muted); background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 5px; padding: 3px 8px; }
+    .view-details { color: var(--blue); font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 4px; transition: gap 0.2s; }
+    .svc-card:hover .view-details { gap: 8px; }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo"><div class="logo-icon">✈</div><span>Airport <em>Logistics</em> India</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="track.html">Track Shipment</a></li>
+    <li><a href="book.html">Book Shipment</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions" id="user-nav-area"></div>
+  <button class="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<main>
+  <div class="page-hero animate-fade-up">
+    <div class="badge">Our Services</div>
+    <h1>6 Ways We <span>Move Your World</span></h1>
+    <p>Click on any service to explore full details — features, pricing, how it works, and who it's best for.</p>
+  </div>
+
+  <div class="services-wrap">
+    <div class="services-grid">
+
+      <a href="service-airport.html" class="svc-card animate-fade-up">
+        <div class="svc-card-top">
+          <div class="svc-icon">🛫</div>
+          <div><h3>Airport - To - Airport</h3><div class="svc-sub">Fastest cargo transfer between India's major airports</div></div>
+        </div>
+        <div class="svc-tag">EXPRESS</div>
+        <p>Direct airport-to-airport cargo transfer with priority handling. Fastest transit time for urgent shipments between major Indian airports.</p>
+        <div class="svc-card-footer">
+          <div class="svc-pod">POD: AAALI5051XXXX</div>
+          <div class="view-details">VIEW DETAILS →</div>
+        </div>
+      </a>
+
+      <a href="service-door.html" class="svc-card animate-fade-up delay-1">
+        <div class="svc-card-top">
+          <div class="svc-icon">🚪</div>
+          <div><h3>Door to Door</h3><div class="svc-sub">Complete pickup-to-delivery service</div></div>
+        </div>
+        <div class="svc-tag">CONVENIENT</div>
+        <p>We come to you, every step of the way. Scheduled pickup from your address and delivery right to the recipient's doorstep.</p>
+        <div class="svc-card-footer">
+          <div class="svc-pod">POD: DDALI3105XXXX</div>
+          <div class="view-details">VIEW DETAILS →</div>
+        </div>
+      </a>
+
+      <a href="service-domestic.html" class="svc-card animate-fade-up delay-2">
+        <div class="svc-card-top">
+          <div class="svc-icon">📦</div>
+          <div><h3>Domestic Courier</h3><div class="svc-sub">Pan-India delivery with multi-brand options</div></div>
+        </div>
+        <div class="svc-tag">PAN INDIA</div>
+        <p>Pan-India delivery with multi-brand courier options under one platform. Compare rates, transit times, and book instantly.</p>
+        <div class="svc-card-footer">
+          <div class="svc-pod">POD: DCALI2104XXXX</div>
+          <div class="view-details">VIEW DETAILS →</div>
+        </div>
+      </a>
+
+      <a href="service-international.html" class="svc-card animate-fade-up">
+        <div class="svc-card-top">
+          <div class="svc-icon">🌐</div>
+          <div><h3>International Courier</h3><div class="svc-sub">Send to 220+ countries worldwide</div></div>
+        </div>
+        <div class="svc-tag">GLOBAL</div>
+        <p>Send to 220+ countries with customs clearance and real-time tracking. Partners with FedEx, DHL, UPS, and Aramex.</p>
+        <div class="svc-card-footer">
+          <div class="svc-pod">POD: IALI1103XXXX</div>
+          <div class="view-details">VIEW DETAILS →</div>
+        </div>
+      </a>
+
+      <a href="service-cargo.html" class="svc-card animate-fade-up delay-1">
+        <div class="svc-card-top">
+          <div class="svc-icon">🏭</div>
+          <div><h3>Cargo & Freight</h3><div class="svc-sub">Heavy cargo and bulk freight solutions</div></div>
+        </div>
+        <div class="svc-tag">BULK</div>
+        <p>Heavy cargo and bulk freight solutions via air, road, and rail. End-to-end freight management for businesses moving large volumes.</p>
+        <div class="svc-card-footer">
+          <div class="svc-pod">POD: CFALI6769XXXX</div>
+          <div class="view-details">VIEW DETAILS →</div>
+        </div>
+      </a>
+
+      <a href="service-express.html" class="svc-card animate-fade-up delay-2">
+        <div class="svc-card-top">
+          <div class="svc-icon">⚡</div>
+          <div><h3>Express Delivery</h3><div class="svc-sub">Same-day and next-day delivery</div></div>
+        </div>
+        <div class="svc-tag">SAME DAY</div>
+        <p>Same-day and next-day delivery for urgent shipments across India. Dedicated express riders with priority sorting at every hub.</p>
+        <div class="svc-card-footer">
+          <div class="svc-pod">POD: EDALI7081XXXX</div>
+          <div class="view-details">VIEW DETAILS →</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="index.html" class="nav-logo"><div class="logo-icon">✈</div><span>Airport <em>Logistics</em> India</span></a><p>India's trusted multi-brand courier & cargo network.</p></div>
+      <div class="footer-col"><h4>Services</h4><ul>
+        <li><a href="service-airport.html">Airport to Airport</a></li>
+        <li><a href="service-door.html">Door to Door</a></li>
+        <li><a href="service-domestic.html">Domestic Courier</a></li>
+        <li><a href="service-international.html">International Courier</a></li>
+        <li><a href="service-cargo.html">Cargo & Freight</a></li>
+        <li><a href="service-express.html">Express Delivery</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Support</h4><ul><li><a href="track.html">Track Shipment</a></li><li><a href="book.html">Book Shipment</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 Airport Logistics India. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

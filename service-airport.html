@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Airport to Airport – Airport Logistics India</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .svc-detail-wrap { max-width: 1200px; margin: 0 auto; padding: 40px 2rem 80px; }
+    .svc-detail-header { display: flex; align-items: center; gap: 20px; padding: 32px 0 28px; border-bottom: 1px solid var(--border); margin-bottom: 36px; }
+    .svc-detail-icon { width: 64px; height: 64px; background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
+    .svc-breadcrumb { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
+    .svc-breadcrumb a { color: var(--blue); text-decoration: none; }
+    .svc-detail-header h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem; letter-spacing: -0.03em; }
+    .svc-detail-header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+    .svc-detail-layout { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
+    .svc-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 20px; }
+    .svc-section h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--blue); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .svc-section p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; margin-bottom: 12px; }
+    .svc-section p:last-child { margin-bottom: 0; }
+    .feature-list { list-style: none; }
+    .feature-list li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.9rem; color: var(--text-muted); }
+    .feature-list li:last-child { border-bottom: none; }
+    .feature-list li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .feature-list li strong { color: var(--text); }
+    .how-steps { }
+    .how-step { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .how-step:last-child { border-bottom: none; }
+    .step-num { width: 30px; height: 30px; min-width: 30px; background: linear-gradient(135deg, var(--blue), #0284c7); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; color: #fff; }
+    .how-step h4 { font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+    .how-step p { color: var(--text-muted); font-size: 0.82rem; line-height: 1.5; margin: 0; }
+    .zones-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .zone-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
+    .zone-item::before { content: '●'; color: var(--blue); font-size: 0.5rem; }
+    /* SIDEBAR */
+    .svc-sidebar { position: sticky; top: 88px; }
+    .price-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 16px; text-align: center; }
+    .price-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .price-amount { font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 800; color: var(--blue); letter-spacing: -0.04em; line-height: 1; margin-bottom: 6px; }
+    .price-amount span { font-size: 1.4rem; }
+    .price-sub { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 20px; }
+    .book-btn { display: block; width: 100%; background: linear-gradient(135deg, var(--blue), #0284c7); color: #fff; border: none; border-radius: 10px; padding: 13px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.06em; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s; }
+    .book-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(14,165,233,0.4); }
+    .quick-info-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+    .quick-info-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .qi-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85rem; }
+    .qi-row:last-child { border-bottom: none; }
+    .qi-label { color: var(--text-muted); }
+    .qi-val { font-weight: 600; color: var(--text); text-align: right; }
+    .back-btn { display: block; width: 100%; background: transparent; border: 1px solid var(--border); border-radius: 10px; padding: 12px; color: var(--text-muted); font-size: 0.85rem; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s; }
+    .back-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .alert-card { background: rgba(14,165,233,0.07); border: 1px solid rgba(14,165,233,0.2); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+    .alert-card h3 { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue); margin-bottom: 10px; }
+    .alert-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+    @media(max-width:768px){ .svc-detail-layout{ grid-template-columns:1fr; } .svc-sidebar{ position:static; } .zones-grid{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo"><div class="logo-icon">✈</div><span>Airport <em>Logistics</em> India</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="track.html">Track Shipment</a></li>
+    <li><a href="book.html">Book Shipment</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions" id="user-nav-area"></div>
+  <button class="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<main>
+  <div class="svc-detail-wrap animate-fade-up">
+    <div class="svc-detail-header">
+      <div class="svc-detail-icon">🛫</div>
+      <div>
+        <div class="svc-breadcrumb"><a href="services.html">Service Guide</a> → Airport to Airport</div>
+        <h1>Airport - To - Airport</h1>
+        <p>Fastest cargo transfer between India's major airports with priority handling</p>
+      </div>
+    </div>
+    <div class="svc-detail-layout">
+      <div class="svc-main">
+        <div class="svc-section">
+          <h2>About This Service</h2>
+          <p>Airport-to-Airport is our flagship express service designed for businesses and individuals who need the fastest possible transit times. Your cargo is collected at the origin airport, loaded onto the next available flight, and made available for pickup at the destination airport — all within hours.</p>
+          <p>Ideal for urgent documents, high-value goods, spare parts, medical supplies, and time-sensitive commercial cargo that cannot wait for regular courier timelines.</p>
+        </div>
+        <div class="svc-section">
+          <h2>Key Features</h2>
+          <ul class="feature-list">
+            <li>Direct airport-to-airport transfer — no intermediate stops</li>
+            <li>Same-day dispatch on bookings before 12:00 PM</li>
+            <li>Priority loading on next available flight</li>
+            <li>Accepts documents, parcels, and cargo up to 500 kg</li>
+            <li>Insurance coverage available for all shipments</li>
+            <li>Dedicated customer support 24/7</li>
+          </ul>
+        </div>
+        <div class="svc-section">
+          <h2>How It Works</h2>
+          <div class="how-steps">
+            <div class="how-step"><div class="step-num">1</div><div><h4>Book Your Shipment</h4><p>Book online or visit our airport counter. Provide shipment details, weight, and destination airport.</p></div></div>
+            <div class="how-step"><div class="step-num">2</div><div><h4>Drop at Airport Counter</h4><p>Bring your parcel to our ALI counter at the departure airport. We handle documentation and labeling.</p></div></div>
+            <div class="how-step"><div class="step-num">3</div><div><h4>Flight Dispatch</h4><p>Your cargo is loaded on the next available flight to the destination city with priority boarding.</p></div></div>
+            <div class="how-step"><div class="step-num">4</div><div><h4>Collect at Destination</h4><p>Recipient collects the shipment at the destination airport counter within 2 hours of flight landing.</p></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="svc-sidebar">
+        <div class="price-card">
+          <div class="price-label">Starting From</div>
+          <div class="price-amount"><span>₹</span>65</div>
+          <div class="price-sub">Per kg · Taxes extra</div>
+          <a href="book.html" class="book-btn">BOOK NOW</a>
+        </div>
+        <div class="quick-info-card">
+          <h3>Quick Info</h3>
+          <div class="qi-row"><span class="qi-label">Transit Time</span><span class="qi-val">2–6 Hours</span></div>
+          <div class="qi-row"><span class="qi-label">Weight Limit</span><span class="qi-val">Up to 500 kg</span></div>
+          <div class="qi-row"><span class="qi-label">Tracking</span><span class="qi-val">Real-Time</span></div>
+          <div class="qi-row"><span class="qi-label">Pickup</span><span class="qi-val">Airport Counter</span></div>
+          <div class="qi-row"><span class="qi-label">Insurance</span><span class="qi-val">Available</span></div>
+          <div class="qi-row"><span class="qi-label">Support</span><span class="qi-val">24/7</span></div>
+        </div>
+        <a href="services.html" class="back-btn">← Back to Services</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer><div class="footer-inner"><div class="footer-bottom"><span>© 2025 Airport Logistics India. All rights reserved.</span>
+</div></div></footer>
+<script src="app.js"></script>
+</body>
+</html>

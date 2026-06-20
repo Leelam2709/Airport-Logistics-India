@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Register – Airport Logistics India</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 100px 2rem 40px;
+    }
+    .auth-container { width: 100%; max-width: 480px; }
+
+    .auth-logo {
+      text-align: center; margin-bottom: 32px;
+    }
+    .auth-logo a {
+      display: inline-flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .auth-logo .logo-icon { width: 40px; height: 40px; font-size: 20px; border-radius: 10px; }
+    .auth-logo span { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; color: var(--text); }
+    .auth-logo span em { color: var(--blue); font-style: normal; }
+
+    .auth-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(12px);
+    }
+
+    /* TABS */
+    .tab-row {
+      display: flex;
+      background: rgba(255,255,255,0.04);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 32px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 9px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--blue), #0284c7);
+      color: #fff;
+      box-shadow: 0 2px 12px rgba(14,165,233,0.3);
+    }
+
+    /* PANELS */
+    .auth-panel { display: none; }
+    .auth-panel.active { display: block; }
+
+    .auth-panel h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; margin-bottom: 6px; }
+    .auth-panel p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; }
+
+    .divider-or { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+    .divider-or::before, .divider-or::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .divider-or span { color: var(--text-muted); font-size: 0.8rem; }
+
+    .terms-text { font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-top: 16px; line-height: 1.5; }
+    .terms-text a { color: var(--blue); text-decoration: none; }
+
+    /* LOGGED IN STATE */
+    .logged-in {
+      text-align: center;
+      display: none;
+    }
+    .logged-in .avatar-big {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, var(--blue), var(--accent));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem;
+      color: #fff;
+      margin: 0 auto 20px;
+    }
+    .logged-in h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.3rem; margin-bottom: 4px; }
+    .logged-in p { color: var(--text-muted); font-size: 0.9rem; }
+    .logged-in .actions { margin-top: 24px; display: flex; flex-direction: column; gap: 10px; }
+
+    /* PROFILE INFO */
+    .profile-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; }
+    .profile-item label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 3px; }
+    .profile-item span { font-size: 0.9rem; font-weight: 500; }
+
+    .password-wrap { position: relative; }
+    .password-wrap input { padding-right: 44px; }
+    .toggle-pw {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); font-size: 0.85rem; padding: 0;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">✈</div>
+    <span>Airport <em>Logistics</em> India</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="track.html">Track Shipment</a></li>
+    <li><a href="book.html">Book Shipment</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions" id="user-nav-area"></div>
+  <button class="hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<main class="auth-page">
+  <div class="auth-container animate-fade-up">
+    <div class="auth-logo">
+      <a href="index.html">
+        <div class="logo-icon" style="background:linear-gradient(135deg,var(--blue),var(--accent));width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">✈</div>
+        <span>Airport <em>Logistics</em> India</span>
+      </a>
+    </div>
+
+    <!-- LOGGED IN VIEW -->
+    <div class="auth-card" id="logged-in-card" style="display:none">
+      <div class="logged-in" style="display:block" id="user-profile-view">
+        <div class="avatar-big" id="profile-avatar"></div>
+        <h3 id="profile-name"></h3>
+        <p id="profile-email"></p>
+        <div style="margin-top:20px;text-align:left">
+          <div class="profile-item"><label>Full Name</label><span id="pi-name"></span></div>
+          <div class="profile-item"><label>Email</label><span id="pi-email"></span></div>
+          <div class="profile-item"><label>Phone</label><span id="pi-phone"></span></div>
+          <div class="profile-item"><label>Member Since</label><span id="pi-date"></span></div>
+        </div>
+        <div class="actions">
+          <a href="track.html" class="btn btn-primary" style="justify-content:center">Track a Shipment</a>
+          <button class="btn btn-outline" onclick="doLogout()" style="justify-content:center">Sign Out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTH TABS -->
+    <div class="auth-card" id="auth-tabs-card">
+      <div class="tab-row">
+        <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Login</button>
+        <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Register</button>
+      </div>
+
+      <!-- LOGIN PANEL -->
+      <div class="auth-panel active" id="panel-login">
+        <h2>Welcome Back</h2>
+        <p>Sign in to manage your shipments and track your parcels.</p>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="l-email" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="password-wrap">
+            <input type="password" id="l-password" placeholder="Enter your password" />
+            <button class="toggle-pw" onclick="togglePw('l-password', this)">👁</button>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;margin-top:4px" onclick="doLogin()">Sign In →</button>
+
+        <div class="divider-or"><span>or</span></div>
+        <div style="text-align:center;font-size:0.85rem;color:var(--text-muted)">
+          Don't have an account? <a href="#" style="color:var(--blue)" onclick="switchTab('register');return false">Register for free</a>
+        </div>
+
+        <div style="margin-top:16px;background:rgba(14,165,233,0.06);border:1px solid rgba(14,165,233,0.15);border-radius:10px;padding:14px">
+          <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0">
+            <strong style="color:var(--blue)">Demo:</strong> Register a new account below, then log in with your credentials. All data is stored in your browser.
+          </p>
+        </div>
+      </div>
+
+      <!-- REGISTER PANEL -->
+      <div class="auth-panel" id="panel-register">
+        <h2>Create Account</h2>
+        <p>Join Airport Logistics India and start shipping smarter.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="r-fname" placeholder="First name" />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="r-lname" placeholder="Last name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="r-email" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="r-phone" placeholder="+91 00000 00000" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="password-wrap">
+            <input type="password" id="r-password" placeholder="Min. 6 characters" />
+            <button class="toggle-pw" onclick="togglePw('r-password', this)">👁</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Account Type</label>
+          <select id="r-type">
+            <option value="individual">Individual / Personal</option>
+            <option value="business">Business / Corporate</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:13px" onclick="doRegister()">Create Account →</button>
+        <div class="terms-text">By registering, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="app.js"></script>
+<script>
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+  }
+
+  function togglePw(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+    else { input.type = 'password'; btn.textContent = '👁'; }
+  }
+
+  async function doLogin() {
+    const email = document.getElementById('l-email').value.trim();
+    const password = document.getElementById('l-password').value;
+    if (!email || !password) { showToast('Please fill in all fields', 'error'); return; }
+    const btn = event.target; btn.textContent = 'Signing in...'; btn.disabled = true;
+    try {
+      const data = await loginUser(email, password);
+      if (data.success) {
+        showToast('Welcome back, ' + data.user.name.split(' ')[0] + '!', 'success');
+        setTimeout(() => showUserProfile(data.user), 500);
+      } else {
+        showToast(data.message || 'Login failed', 'error');
+      }
+    } catch(e) { showToast('Cannot connect to server. Is the backend running?', 'error'); }
+    btn.textContent = 'Sign In →'; btn.disabled = false;
+  }
+
+  async function doRegister() {
+    const fname = document.getElementById('r-fname').value.trim();
+    const lname = document.getElementById('r-lname').value.trim();
+    const email = document.getElementById('r-email').value.trim();
+    const phone = document.getElementById('r-phone').value.trim();
+    const password = document.getElementById('r-password').value;
+    const type = document.getElementById('r-type').value;
+
+    if (!fname || !lname) { showToast('Please enter your full name', 'error'); return; }
+    if (!email || !email.includes('@')) { showToast('Please enter a valid email', 'error'); return; }
+    if (!phone) { showToast('Please enter your phone number', 'error'); return; }
+    if (!password || password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+
+    const btn = event.target; btn.textContent = 'Creating account...'; btn.disabled = true;
+    try {
+      const data = await registerUser(fname + ' ' + lname, email, phone, password, type);
+      if (data.success) {
+        showToast('Account created! Welcome, ' + fname + '!', 'success');
+        setTimeout(() => showUserProfile(data.user), 500);
+      } else {
+        showToast(data.message || 'Registration failed', 'error');
+      }
+    } catch(e) { showToast('Cannot connect to server. Is the backend running?', 'error'); }
+    btn.textContent = 'Create Account →'; btn.disabled = false;
+  }
+
+  function showUserProfile(user) {
+    document.getElementById('auth-tabs-card').style.display = 'none';
+    document.getElementById('logged-in-card').style.display = 'block';
+    document.getElementById('profile-avatar').textContent = user.name.charAt(0).toUpperCase();
+    document.getElementById('profile-name').textContent = user.name;
+    document.getElementById('profile-email').textContent = user.email;
+    document.getElementById('pi-name').textContent = user.name;
+    document.getElementById('pi-email').textContent = user.email;
+    document.getElementById('pi-phone').textContent = user.phone || 'Not provided';
+    document.getElementById('pi-date').textContent = user.joinedOn || 'Today';
+    renderNavUser();
+  }
+
+  function doLogout() {
+    logoutUser();
+    document.getElementById('auth-tabs-card').style.display = 'block';
+    document.getElementById('logged-in-card').style.display = 'none';
+    showToast('Logged out successfully');
+    renderNavUser();
+  }
+
+  // Check if user already logged in
+  document.addEventListener('DOMContentLoaded', () => {
+    const user = getCurrentUser();
+    if (user) { showUserProfile(user); return; }
+
+    // Check for #register in URL
+    if (location.hash === '#register') switchTab('register');
+  });
+</script>
+</body>
+</html>

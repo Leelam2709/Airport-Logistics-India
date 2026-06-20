@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Book Shipment – Airport Logistics India</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .book-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 60px 2rem 80px
+    }
+
+    .steps-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 48px
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: all 0.3s;
+      flex-shrink: 0
+    }
+
+    .step-num.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2)
+    }
+
+    .step-num.done {
+      background: var(--success);
+      border-color: var(--success);
+      color: #fff
+    }
+
+    .step-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500
+    }
+
+    .step-label.active {
+      color: var(--text)
+    }
+
+    .step-connector {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin: 0 6px
+    }
+
+    .step-connector.done {
+      background: var(--blue);
+      opacity: 0.4
+    }
+
+    .form-panel {
+      display: none
+    }
+
+    .form-panel.active {
+      display: block;
+      animation: fadeUp 0.4s ease both
+    }
+
+    .panel-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px
+    }
+
+    .panel-sub {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 28px
+    }
+
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 20px
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px
+    }
+
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px
+    }
+
+    .service-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 8px
+    }
+
+    .service-opt {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start
+    }
+
+    .service-opt:hover {
+      border-color: rgba(14, 165, 233, 0.3)
+    }
+
+    .service-opt.selected {
+      border-color: var(--blue);
+      background: rgba(14, 165, 233, 0.07);
+      box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.15)
+    }
+
+    .service-opt input[type=radio] {
+      display: none
+    }
+
+    .so-icon {
+      font-size: 1.4rem
+    }
+
+    .so-text h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 3px
+    }
+
+    .so-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4
+    }
+
+    .review-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem
+    }
+
+    .review-row:last-child {
+      border-bottom: none
+    }
+
+    .review-row .rl {
+      color: var(--text-muted)
+    }
+
+    .review-row .rv {
+      font-weight: 500;
+      text-align: right
+    }
+
+    .booking-success {
+      text-align: center;
+      padding: 20px 0
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      margin-bottom: 20px
+    }
+
+    .success-pod {
+      display: inline-block;
+      background: rgba(14, 165, 233, 0.08);
+      border: 2px solid rgba(14, 165, 233, 0.3);
+      border-radius: 16px;
+      padding: 20px 36px;
+      margin: 20px 0
+    }
+
+    .success-pod .pod-label-big {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px
+    }
+
+    .success-pod .pod-num {
+      font-family: monospace;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--blue);
+      letter-spacing: 0.06em
+    }
+
+    .success-pod .pod-service {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 6px
+    }
+
+    .form-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px
+    }
+
+    /* SAVED CUSTOMERS */
+    .saved-customers-bar {
+      background: rgba(14, 165, 233, 0.06);
+      border: 1px solid rgba(14, 165, 233, 0.18);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .saved-customers-bar label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      white-space: nowrap
+    }
+
+    .saved-customers-bar select {
+      flex: 1;
+      min-width: 200px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none
+    }
+
+    .save-customer-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border)
+    }
+
+    .save-customer-row input[type=checkbox] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--blue)
+    }
+
+    .save-customer-row label {
+      font-size: 0.85rem;
+      color: var(--text-muted)
+    }
+
+    .notif-info {
+      background: rgba(16, 185, 129, 0.07);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-size: 0.82rem;
+      color: var(--text-muted)
+    }
+
+    .notif-info strong {
+      color: var(--success)
+    }
+
+    @media(max-width:640px) {
+
+      .form-row-2,
+      .form-row-3 {
+        grid-template-columns: 1fr
+      }
+
+      .steps-bar .step-label {
+        display: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">✈</div><span>Airport <em>Logistics</em> India</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="track.html">Track Shipment</a></li>
+      <li><a href="book.html" class="active">Book Shipment</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions" id="user-nav-area"></div>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+  <main>
+    <div class="book-wrap animate-fade-up">
+      <div style="margin-bottom:36px">
+        <div class="section-label">New Booking</div>
+        <h1 class="section-title">Book a Shipment</h1>
+        <p class="section-sub">Fill in the details below. Your unique POD number will be generated and sent to your
+          email & phone after confirmation.</p>
+      </div>
+      <!-- STEPS -->
+      <div class="steps-bar">
+        <div class="step-item">
+          <div class="step-num active" id="sn1">1</div><span class="step-label active" id="sl1">Service</span>
+        </div>
+        <div class="step-connector" id="sc1"></div>
+        <div class="step-item">
+          <div class="step-num" id="sn2">2</div><span class="step-label" id="sl2">Sender</span>
+        </div>
+        <div class="step-connector" id="sc2"></div>
+        <div class="step-item">
+          <div class="step-num" id="sn3">3</div><span class="step-label" id="sl3">Receiver</span>
+        </div>
+        <div class="step-connector" id="sc3"></div>
+        <div class="step-item">
+          <div class="step-num" id="sn4">4</div><span class="step-label" id="sl4">Package</span>
+        </div>
+        <div class="step-connector" id="sc4"></div>
+        <div class="step-item">
+          <div class="step-num" id="sn5">5</div><span class="step-label" id="sl5">Confirm</span>
+        </div>
+      </div>
+
+      <!-- STEP 1: SERVICE -->
+      <div class="form-panel active" id="panel-1">
+        <div class="panel-title">Choose Your Service</div>
+        <p class="panel-sub">Select the service that fits your shipment. POD number format is based on service type.</p>
+        <div class="service-selector">
+          <label class="service-opt" onclick="selectService('airport_to_airport',this)"><input type="radio"
+              name="service" value="airport_to_airport">
+            <div class="so-icon">🛫</div>
+            <div class="so-text">
+              <h4>Airport to Airport</h4>
+              <p>Terminal-to-terminal cargo</p>
+            </div>
+          </label>
+          <label class="service-opt" onclick="selectService('door_to_door',this)"><input type="radio" name="service"
+              value="door_to_door">
+            <div class="so-icon">🚪</div>
+            <div class="so-text">
+              <h4>Door to Door</h4>
+              <p>Pickup to doorstep delivery</p>
+            </div>
+          </label>
+          <label class="service-opt" onclick="selectService('domestic_courier',this)"><input type="radio" name="service"
+              value="domestic_courier">
+            <div class="so-icon">📦</div>
+            <div class="so-text">
+              <h4>Domestic Courier</h4>
+              <p>Pan India 120+ cities</p>
+            </div>
+          </label>
+          <label class="service-opt" onclick="selectService('international_courier',this)"><input type="radio"
+              name="service" value="international_courier">
+            <div class="so-icon">🌐</div>
+            <div class="so-text">
+              <h4>International Courier</h4>
+              <p>220+ countries worldwide</p>
+            </div>
+          </label>
+          <label class="service-opt" onclick="selectService('cargo_freight',this)"><input type="radio" name="service"
+              value="cargo_freight">
+            <div class="so-icon">🏭</div>
+            <div class="so-text">
+              <h4>Cargo & Freight</h4>
+              <p>Heavy bulk cargo up to 5000 kg</p>
+            </div>
+          </label>
+          <label class="service-opt" onclick="selectService('express_delivery',this)"><input type="radio" name="service"
+              value="express_delivery">
+            <div class="so-icon">⚡</div>
+            <div class="so-text">
+              <h4>Express Delivery</h4>
+              <p>Same-day metro delivery</p>
+            </div>
+          </label>
+        </div>
+        <div class="form-nav"><span></span><button class="btn btn-primary" onclick="nextStep(1)">Next: Sender Details
+            →</button></div>
+      </div>
+
+      <!-- STEP 2: SENDER -->
+      <div class="form-panel" id="panel-2">
+        <div class="panel-title">Sender Details</div>
+        <p class="panel-sub">Enter the pickup / origin details.</p>
+        <div class="form-card">
+          <div class="form-row-2">
+            <div class="form-group"><label>Full Name *</label><input type="text" id="s-name"
+                placeholder="Sender's full name" /></div>
+            <div class="form-group"><label>Phone Number *</label><input type="tel" id="s-phone"
+                placeholder="+91 00000 00000" /></div>
+          </div>
+          <div class="form-group"><label>Address *</label><input type="text" id="s-address"
+              placeholder="House/Office No., Street, Area" /></div>
+          <div class="form-row-3">
+            <div class="form-group"><label>City *</label><input type="text" id="s-city" placeholder="City" /></div>
+            <div class="form-group"><label>State *</label><input type="text" id="s-state" placeholder="State" /></div>
+            <div class="form-group"><label>Pincode *</label><input type="text" id="s-pincode" placeholder="400001" />
+            </div>
+          </div>
+        </div>
+        <div class="form-nav"><button class="btn btn-ghost" onclick="prevStep(2)">← Back</button><button
+            class="btn btn-primary" onclick="nextStep(2)">Next: Receiver Details →</button></div>
+      </div>
+
+      <!-- STEP 3: RECEIVER -->
+      <div class="form-panel" id="panel-3">
+        <div class="panel-title">Receiver Details</div>
+        <p class="panel-sub">Select a saved customer or enter new receiver details.</p>
+
+        <!-- SAVED CUSTOMERS DROPDOWN -->
+        <div class="saved-customers-bar" id="saved-bar" style="display:none">
+          <label>📋 Regular Customer:</label>
+          <select id="saved-select" onchange="fillSavedCustomer()">
+            <option value="">-- Select saved customer --</option>
+          </select>
+          <button class="btn btn-outline" style="padding:6px 14px;font-size:0.8rem"
+            onclick="clearReceiverForm()">Clear</button>
+        </div>
+
+        <div class="form-card">
+          <div class="form-row-2">
+            <div class="form-group"><label>Full Name *</label><input type="text" id="r-name"
+                placeholder="Receiver's full name" /></div>
+            <div class="form-group"><label>Phone Number *</label><input type="tel" id="r-phone"
+                placeholder="+91 00000 00000" /></div>
+          </div>
+          <div class="form-group"><label>Address *</label><input type="text" id="r-address"
+              placeholder="House/Office No., Street, Area" /></div>
+          <div class="form-row-3">
+            <div class="form-group"><label>City *</label><input type="text" id="r-city" placeholder="City" /></div>
+            <div class="form-group"><label>State *</label><input type="text" id="r-state" placeholder="State" /></div>
+            <div class="form-group"><label>Pincode *</label><input type="text" id="r-pincode" placeholder="110001" />
+            </div>
+          </div>
+          <div class="form-group"><label>Country</label><input type="text" id="r-country" placeholder="India"
+              value="India" /></div>
+          <!-- SAVE AS REGULAR CUSTOMER -->
+          <div class="save-customer-row">
+            <input type="checkbox" id="save-customer" />
+            <label for="save-customer">💾 Save this receiver as a regular customer for future bookings</label>
+          </div>
+          <div class="form-group" id="label-group" style="margin-top:12px;display:none">
+            <label>Customer Label (optional)</label>
+            <input type="text" id="r-label" placeholder="e.g. Head Office, Regular Client, Warehouse" />
+          </div>
+        </div>
+        <div class="form-nav"><button class="btn btn-ghost" onclick="prevStep(3)">← Back</button><button
+            class="btn btn-primary" onclick="nextStep(3)">Next: Package Info →</button></div>
+      </div>
+
+      <!-- STEP 4: PACKAGE -->
+      <div class="form-panel" id="panel-4">
+        <div class="panel-title">Package Information</div>
+        <p class="panel-sub">Tell us what you're shipping and its size.</p>
+        <div class="form-card">
+          <div class="form-row-2">
+            <div class="form-group"><label>Weight (kg) *</label><input type="number" id="p-weight"
+                placeholder="e.g. 2.5" min="0.1" step="0.1" /></div>
+            <div class="form-group"><label>Quantity</label><input type="number" id="p-qty" placeholder="1" min="1"
+                value="1" /></div>
+          </div>
+          <div class="form-group"><label>Dimensions (optional)</label><input type="text" id="p-dims"
+              placeholder="e.g. 30cm x 20cm x 15cm" /></div>
+          <div class="form-group"><label>Contents / Description *</label><input type="text" id="p-desc"
+              placeholder="e.g. Electronic Components, Clothing, Documents" /></div>
+          <div class="form-group"><label>Estimated Delivery Date (optional)</label><input type="date" id="p-date" />
+          </div>
+          <div class="notif-info">📧 <strong>Booking confirmation</strong> with your POD number will be sent to your
+            registered email and phone number automatically after booking.</div>
+        </div>
+        <div class="form-nav"><button class="btn btn-ghost" onclick="prevStep(4)">← Back</button><button
+            class="btn btn-primary" onclick="nextStep(4)">Review Booking →</button></div>
+      </div>
+
+      <!-- STEP 5: REVIEW -->
+      <div class="form-panel" id="panel-5">
+        <div class="panel-title">Review & Confirm</div>
+        <p class="panel-sub">Check all details before confirming. Your POD will be generated after confirmation.</p>
+        <div class="form-card" id="review-box"></div>
+        <div
+          style="background:rgba(14,165,233,0.07);border:1px solid rgba(14,165,233,0.2);border-radius:12px;padding:16px;margin-bottom:20px;font-size:0.85rem;color:var(--text-muted)">
+          ✈ <strong style="color:var(--blue)">POD will be generated</strong> after you confirm. Email & SMS will be sent
+          to your registered contact automatically.
+        </div>
+        <div class="form-nav">
+          <button class="btn btn-ghost" onclick="prevStep(5)">← Edit Details</button>
+          <button class="btn btn-primary btn-lg" id="confirm-btn" onclick="confirmBooking()">Confirm & Get POD
+            →</button>
+        </div>
+      </div>
+
+      <!-- STEP 6: SUCCESS -->
+      <div class="form-panel" id="panel-6">
+        <div class="form-card booking-success">
+          <div class="success-icon">🎉</div>
+          <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;margin-bottom:8px">Shipment Booked!
+          </h2>
+          <p style="color:var(--text-muted);margin-bottom:4px">Your booking is confirmed. Here is your unique POD
+            number:</p>
+          <div class="success-pod">
+            <div class="pod-label-big">Your POD Number</div>
+            <div class="pod-num" id="result-pod">—</div>
+            <div class="pod-service" id="result-service">—</div>
+          </div>
+          <div
+            style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:12px;margin-bottom:24px;font-size:0.85rem;color:var(--text-muted)">
+            ✅ Booking confirmation with your POD number has been sent to your <strong style="color:var(--success)">email
+              and phone number</strong>
+          </div>
+          <p style="color:var(--text-muted);font-size:0.88rem;max-width:420px;margin:0 auto 28px">Save this POD number
+            to track your shipment anytime on our tracking page.</p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <a id="track-this-btn" href="track.html" class="btn btn-primary btn-lg">Track This Shipment</a>
+            <a href="book.html" class="btn btn-outline btn-lg" onclick="resetForm()">Book Another</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-bottom"><span>© 2025 Airport Logistics India. All rights reserved.</span>
+        <span>TYBCA Final Y/ear Project · YCMOU</span>
+      </div>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+  <script>
+    let currentStep = 1;
+    let selectedService = null;
+    let savedCustomers = [];
+
+    const SERVICE_LABELS = {
+      airport_to_airport: 'Airport to Airport', door_to_door: 'Door to Door',
+      domestic_courier: 'Domestic Courier', international_courier: 'International Courier',
+      cargo_freight: 'Cargo & Freight', express_delivery: 'Express Delivery'
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!getCurrentUser()) { showToast('Please login to book a shipment', 'error'); setTimeout(() => window.location.href = 'login.html', 1500); return; }
+      await loadSavedCustomers();
+      document.getElementById('save-customer').addEventListener('change', function () {
+        document.getElementById('label-group').style.display = this.checked ? 'block' : 'none';
+      });
+    });
+
+    async function loadSavedCustomers() {
+      try {
+        const data = await getMyShipments(); // reuse token
+        const res = await apiCall('/customers', 'GET', null, true);
+        if (res.success && res.customers.length > 0) {
+          savedCustomers = res.customers;
+          const select = document.getElementById('saved-select');
+          select.innerHTML = '<option value="">-- Select saved customer --</option>';
+          res.customers.forEach((c, i) => {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = `${c.name} – ${c.city} ${c.label ? '(' + c.label + ')' : ''}`;
+            select.appendChild(opt);
+          });
+          document.getElementById('saved-bar').style.display = 'flex';
+        }
+      } catch (e) { console.log('No saved customers yet'); }
+    }
+
+    function fillSavedCustomer() {
+      const idx = document.getElementById('saved-select').value;
+      if (idx === '') return;
+      const c = savedCustomers[idx];
+      document.getElementById('r-name').value = c.name || '';
+      document.getElementById('r-phone').value = c.phone || '';
+      document.getElementById('r-address').value = c.address || '';
+      document.getElementById('r-city').value = c.city || '';
+      document.getElementById('r-state').value = c.state || '';
+      document.getElementById('r-pincode').value = c.pincode || '';
+      document.getElementById('r-country').value = c.country || 'India';
+      showToast('Customer details filled automatically!', 'success');
+    }
+
+    function clearReceiverForm() {
+      ['r-name', 'r-phone', 'r-address', 'r-city', 'r-state', 'r-pincode'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('r-country').value = 'India';
+      document.getElementById('saved-select').value = '';
+    }
+
+    function selectService(val, el) {
+      document.querySelectorAll('.service-opt').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedService = val;
+    }
+
+    function goToStep(n) {
+      document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + n).classList.add('active');
+      for (let i = 1; i <= 5; i++) {
+        const num = document.getElementById('sn' + i);
+        const lbl = document.getElementById('sl' + i);
+        const con = document.getElementById('sc' + i);
+        if (!num) continue;
+        if (i < n) { num.classList.remove('active'); num.classList.add('done'); num.textContent = '✓'; if (lbl) lbl.classList.remove('active'); }
+        else if (i === n) { num.classList.add('active'); num.classList.remove('done'); num.textContent = i; if (lbl) lbl.classList.add('active'); }
+        else { num.classList.remove('active', 'done'); num.textContent = i; if (lbl) lbl.classList.remove('active'); }
+        if (con) con.classList.toggle('done', i < n);
+      }
+      currentStep = n;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextStep(from) {
+      if (from === 1 && !selectedService) { showToast('Please select a service', 'error'); return; }
+      if (from === 2 && (!val('s-name') || !val('s-phone') || !val('s-address') || !val('s-city') || !val('s-state') || !val('s-pincode'))) { showToast('Please fill all sender details', 'error'); return; }
+      if (from === 3 && (!val('r-name') || !val('r-phone') || !val('r-address') || !val('r-city') || !val('r-state') || !val('r-pincode'))) { showToast('Please fill all receiver details', 'error'); return; }
+      if (from === 4 && (!val('p-weight') || !val('p-desc'))) { showToast('Please fill weight and description', 'error'); return; }
+      if (from === 4) buildReview();
+      goToStep(from + 1);
+    }
+
+    function prevStep(from) { goToStep(from - 1); }
+    function val(id) { return document.getElementById(id)?.value?.trim() || ''; }
+
+    function buildReview() {
+      document.getElementById('review-box').innerHTML = `
+    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:16px">Booking Summary</div>
+    <div class="review-row"><span class="rl">Service</span><span class="rv">${SERVICE_LABELS[selectedService]}</span></div>
+    <div class="review-row"><span class="rl">Sender</span><span class="rv">${val('s-name')}, ${val('s-city')}, ${val('s-state')}</span></div>
+    <div class="review-row"><span class="rl">Sender Phone</span><span class="rv">${val('s-phone')}</span></div>
+    <div class="review-row"><span class="rl">Receiver</span><span class="rv">${val('r-name')}, ${val('r-city')}, ${val('r-state')}</span></div>
+    <div class="review-row"><span class="rl">Receiver Phone</span><span class="rv">${val('r-phone')}</span></div>
+    <div class="review-row"><span class="rl">Weight</span><span class="rv">${val('p-weight')} kg</span></div>
+    <div class="review-row"><span class="rl">Contents</span><span class="rv">${val('p-desc')}</span></div>
+    ${val('p-dims') ? `<div class="review-row"><span class="rl">Dimensions</span><span class="rv">${val('p-dims')}</span></div>` : ''}
+    ${val('p-date') ? `<div class="review-row"><span class="rl">Est. Delivery</span><span class="rv">${val('p-date')}</span></div>` : ''}`;
+    }
+
+    async function confirmBooking() {
+      const btn = document.getElementById('confirm-btn');
+      btn.textContent = 'Confirming...'; btn.disabled = true;
+      const saveReceiver = document.getElementById('save-customer').checked;
+      const payload = {
+        serviceType: selectedService,
+        sender: { name: val('s-name'), phone: val('s-phone'), address: val('s-address'), city: val('s-city'), state: val('s-state'), pincode: val('s-pincode') },
+        receiver: { name: val('r-name'), phone: val('r-phone'), address: val('r-address'), city: val('r-city'), state: val('r-state'), pincode: val('r-pincode'), country: val('r-country') || 'India', label: val('r-label') },
+        packageDetails: { weight: parseFloat(val('p-weight')), description: val('p-desc'), dimensions: val('p-dims'), quantity: parseInt(val('p-qty')) || 1 },
+        estimatedDelivery: val('p-date') || null,
+        saveReceiver
+      };
+      try {
+        const data = await bookShipment(payload);
+        if (data.success) {
+          document.getElementById('result-pod').textContent = data.podNumber;
+          document.getElementById('result-service').textContent = data.serviceLabel + ' · Booked Successfully';
+          document.getElementById('track-this-btn').href = 'track.html?id=' + data.podNumber;
+          goToStep(6);
+          showToast('POD Generated: ' + data.podNumber, 'success');
+        } else { showToast(data.message || 'Booking failed. Please try again.', 'error'); }
+      } catch (e) { showToast('Cannot connect to server. Is the backend running?', 'error'); }
+      btn.textContent = 'Confirm & Get POD →'; btn.disabled = false;
+    }
+
+    function resetForm() {
+      selectedService = null; currentStep = 1;
+      document.querySelectorAll('.service-opt').forEach(o => o.classList.remove('selected'));
+      ['s-name', 's-phone', 's-address', 's-city', 's-state', 's-pincode',
+        'r-name', 'r-phone', 'r-address', 'r-city', 'r-state', 'r-pincode',
+        'p-weight', 'p-desc', 'p-dims', 'p-qty', 'p-date', 'r-label'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.value = id === 'p-qty' ? '1' : (id === 'r-country' ? 'India' : '');
+        });
+      document.getElementById('save-customer').checked = false;
+      document.getElementById('label-group').style.display = 'none';
+    }
+  </script>
+</body>
+
+</html>

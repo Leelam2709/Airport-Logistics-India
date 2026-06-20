@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Airport Logistics India – Fast. Reliable. Global.</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* HERO */
+    .hero {
+      min-height: calc(100vh - 68px);
+      display: flex; align-items: center;
+      padding: 60px 2rem;
+      max-width: 1200px; margin: 0 auto;
+      gap: 60px;
+    }
+    .hero-text { flex: 1; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(14,165,233,0.08);
+      border: 1px solid rgba(14,165,233,0.2);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 28px;
+    }
+    .hero-tag::before { content: '✈'; font-size: 0.9rem; }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 24px;
+    }
+    .hero h1 .line2 { color: var(--blue); display: block; }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 500px;
+      margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* TRACK QUICK */
+    .hero-track {
+      flex: 1;
+      max-width: 460px;
+    }
+    .track-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 80px rgba(0,0,0,0.3);
+    }
+    .track-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .track-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
+    .track-input-row {
+      display: flex; gap: 10px;
+    }
+    .track-input-row input {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .track-input-row input:focus { border-color: var(--blue); background: rgba(14,165,233,0.05); }
+    .track-input-row input::placeholder { color: var(--text-muted); }
+
+    .sample-ids { margin-top: 14px; }
+    .sample-ids p { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; }
+    .sample-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      background: rgba(14,165,233,0.08);
+      border: 1px solid rgba(14,165,233,0.2);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.76rem;
+      color: var(--blue);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', monospace;
+    }
+    .chip:hover { background: rgba(14,165,233,0.18); }
+
+    /* STATS */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem 80px;
+    }
+    .stat-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--blue);
+      letter-spacing: -0.04em;
+    }
+    .stat-label { color: var(--text-muted); font-size: 0.875rem; margin-top: 4px; }
+
+    /* SERVICES PREVIEW */
+    .services-section { padding: 80px 2rem; max-width: 1200px; margin: 0 auto; }
+    .service-icon { font-size: 2rem; margin-bottom: 16px; }
+    .service-tag {
+      display: inline-block;
+      background: rgba(14,165,233,0.08);
+      border: 1px solid rgba(14,165,233,0.15);
+      color: var(--blue);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+    .card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+    /* WHY US */
+    .why-section { background: var(--navy-2); padding: 80px 2rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .why-inner { max-width: 1200px; margin: 0 auto; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px; margin-top: 48px; }
+    .why-item { display: flex; gap: 16px; align-items: flex-start; }
+    .why-dot { width: 42px; height: 42px; min-width: 42px; border-radius: 10px; background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .why-text h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+    .why-text p { color: var(--text-muted); font-size: 0.875rem; line-height: 1.6; }
+
+    /* CTA */
+    .cta-section { max-width: 1200px; margin: 0 auto; padding: 80px 2rem; text-align: center; }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(14,165,233,0.1), rgba(0,212,255,0.05));
+      border: 1px solid rgba(14,165,233,0.25);
+      border-radius: 24px;
+      padding: 64px 40px;
+    }
+    .cta-box h2 { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px; }
+    .cta-box p { color: var(--text-muted); font-size: 1rem; margin-bottom: 32px; }
+
+    @media (max-width: 768px) {
+      .hero { flex-direction: column; min-height: auto; padding-top: 40px; }
+      .hero-track { max-width: 100%; width: 100%; }
+      .track-input-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-icon">✈</div>
+    <span>Airport <em>Logistics</em> India</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="track.html">Track Shipment</a></li>
+    <li><a href="book.html">Book Shipment</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions" id="user-nav-area"></div>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <div class="hero animate-fade-up">
+    <div class="hero-text">
+      <div class="hero-tag">India's Premium Logistics Network</div>
+      <h1>Fast. Reliable.<span class="line2">Global Delivery.</span></h1>
+      <p>Airport Logistics India connects businesses and individuals across India and worldwide with seamless air cargo, express courier, and freight management solutions.</p>
+      <div class="hero-actions">
+        <a href="track.html" class="btn btn-primary btn-lg">Track Shipment</a>
+        <a href="services.html" class="btn btn-outline btn-lg">Our Services</a>
+      </div>
+    </div>
+
+    <div class="hero-track animate-fade-up delay-2">
+      <div class="track-card">
+        <h3>Quick Track</h3>
+        <p>Enter your AWB number to get real-time status</p>
+        <div class="track-input-row">
+          <input type="text" id="quick-track-input" placeholder="e.g. ALI202500001" />
+          <button class="btn btn-primary" onclick="quickTrack()">Track</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row animate-fade-up delay-3">
+    <div class="stat-item">
+      <div class="stat-num">50K+</div>
+      <div class="stat-label">Shipments Delivered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">120+</div>
+      <div class="stat-label">Cities Covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">35+</div>
+      <div class="stat-label">Countries Served</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">99.2%</div>
+      <div class="stat-label">On-time Delivery</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Customer Support</div>
+    </div>
+  </div>
+
+  <!-- SERVICES PREVIEW -->
+  <!-- <section class="services-section">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">End-to-End Logistics Solutions</h2>
+    <p class="section-sub" style="margin-bottom:40px">From domestic air express to international freight, we handle every shipment with precision and care.</p>
+    <div class="grid-3">
+      <div class="card">
+        <div class="service-icon">🚀</div>
+        <div class="service-tag">Express</div>
+        <h3>Air Express Courier</h3>
+        <p>Same-day and next-day delivery across major Indian cities via dedicated air routes.</p>
+      </div>
+      <div class="card">
+        <div class="service-icon">🌐</div>
+        <div class="service-tag">International</div>
+        <h3>International Freight</h3>
+        <p>Door-to-door international shipping to 35+ countries with real-time customs tracking.</p>
+      </div>
+      <div class="card">
+        <div class="service-icon">📦</div>
+        <div class="service-tag">Cargo</div>
+        <h3>Bulk Cargo Handling</h3>
+        <p>Heavy and oversized cargo management for businesses and airport cargo departments.</p>
+      </div>
+      <div class="card">
+        <div class="service-icon">🔒</div>
+        <div class="service-tag">Secure</div>
+        <h3>Secure Shipments</h3>
+        <p>Tamper-proof packaging, insurance coverage, and end-to-end chain-of-custody tracking.</p>
+      </div>
+      <div class="card">
+        <div class="service-icon">🏭</div>
+        <div class="service-tag">B2B</div>
+        <h3>Business Logistics</h3>
+        <p>Dedicated account management for enterprises with SLA-backed delivery commitments.</p>
+      </div>
+      <div class="card">
+        <div class="service-icon">📊</div>
+        <div class="service-tag">Analytics</div>
+        <h3>Shipment Analytics</h3>
+        <p>Detailed reports and insights on your shipment history and delivery performance.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px">
+      <a href="services.html" class="btn btn-outline">View All Services →</a>
+    </div>
+  </section> -->
+
+  <!-- WHY US -->
+  <div class="why-section">
+    <div class="why-inner">
+      <div class="section-label">Why Choose Us</div>
+      <h2 class="section-title">Built for India, Connected to the World</h2>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="why-dot">⚡</div>
+          <div class="why-text">
+            <h4>Fastest Air Network</h4>
+            <p>Priority loading on partner airlines ensures your cargo moves first, every time.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-dot">📍</div>
+          <div class="why-text">
+            <h4>Real-Time Tracking</h4>
+            <p>Live AWB tracking with milestone alerts from pickup to final delivery.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-dot">🛡️</div>
+          <div class="why-text">
+            <h4>Insured & Secure</h4>
+            <p>Every shipment is insured against loss and damage with zero paperwork claims.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-dot">🤝</div>
+          <div class="why-text">
+            <h4>Dedicated Support</h4>
+            <p>Reach our logistics experts 24/7 via phone, email, or live chat.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-dot">💰</div>
+          <div class="why-text">
+            <h4>Transparent Pricing</h4>
+            <p>No hidden fees. Get instant rate cards and volume-based corporate discounts.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-dot">🌍</div>
+          <div class="why-text">
+            <h4>Global Reach</h4>
+            <p>Partnerships with 80+ international carriers connecting India to the world.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-box">
+      <h2>Ready to Ship with Us?</h2>
+      <p>Create your free account and get your first shipment booked in minutes.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="login.html#register" class="btn btn-primary btn-lg">Get Started Free</a>
+        <a href="contact.html" class="btn btn-outline btn-lg">Talk to an Expert</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:0">
+          <div class="logo-icon">✈</div>
+          <span>Airport <em>Logistics</em> India</span>
+        </a>
+        <p>India's fastest growing air logistics and courier management platform. Trusted by 10,000+ businesses and individuals.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Air Express</a></li>
+          <li><a href="services.html">International Freight</a></li>
+          <li><a href="services.html">Bulk Cargo</a></li>
+          <li><a href="services.html">Business Logistics</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="about.html#team">Our Team</a></li>
+          <li><a href="contact.html">Careers</a></li>
+          <li><a href="contact.html">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="track.html">Track Shipment</a></li>
+    <li><a href="book.html">Book Shipment</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Rate Calculator</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Airport Logistics India. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script src="shipments.js"></script>
+<script>
+  function fillId(id) {
+    document.getElementById('quick-track-input').value = id;
+  }
+  function quickTrack() {
+    const id = document.getElementById('quick-track-input').value.trim();
+    if (!id) { showToast('Please enter a tracking ID', 'error'); return; }
+    window.location.href = 'track.html?id=' + encodeURIComponent(id);
+  }
+  document.getElementById('quick-track-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') quickTrack();
+  });
+</script>
+</body>
+</html>
