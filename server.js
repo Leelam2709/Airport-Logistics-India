@@ -9,7 +9,9 @@ dotenv.config();
 const { sendBookingConfirmation, sendStatusUpdate } = require('./utils/notifications');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ['https://leelam2709.github.io', 'http://localhost:5000', 'http://127.0.0.1:5500']
+}));
 app.use(express.json());
 
 // ── SCHEMAS ───────────────────────────────────────────────────────
