@@ -15,7 +15,7 @@ async function apiCall(endpoint, method = 'GET', body = null, auth = false) {
   if (auth && getToken()) headers['Authorization'] = 'Bearer ' + getToken();
   const options = { method, headers };
   if (body) options.body = JSON.stringify(body);
-  const res = (await API + endpoint, options);
+  const res = await fetch(API + endpoint, options);  
   return await res.json();
 }
 
